@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Interactive Product Offers</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      padding: 20px;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      padding-top: 30px;
+      padding-bottom: 30px;
+    }
+
+    .box {
+      width: 80%;
+      background-color: #ffffff;
+      border: 2px solid #e9e4e4;
+      border-radius: 10px;
+      padding: 20px;
+      cursor: pointer;
+      transition: all 0.3s ease-in-out;
+      overflow: hidden;
+      max-height: 100px;
+      position: relative;
+    }
+
+    .box.active {
+      max-height: 600px;
+      background-color: #f7f1f4;
+      border: 2px solid #db5caa;
+    }
+
+    .collapsed-summary {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .collapsed-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1rem;
+    }
+
+    .collapsed-left span.offer {
+      background-color: rgb(237, 118, 150);
+      color: white;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    .collapsed-left .desc {
+      font-weight: bold;
+    }
+
+    .collapsed-right {
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #292121;
+    }
+
+    .content {
+      opacity: 0;
+      margin-top: 15px;
+      transition: opacity 0.3s ease-in-out;
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .box.active .content {
+      opacity: 1;
+    }
+
+    .left-side, .right-side {
+      flex: 1;
+    }
+
+    .standard-price {
+      font-size: 0.7em;
+      font-weight: 500;
+    }
+
+    .multi-option {
+      display: flex;
+      align-items: flex-end;
+      margin-bottom: 10px;
+    }
+
+    .label-col {
+      width: 40px;
+      font-weight: bold;
+      padding-top: 8px;
+    }
+
+    .dropdown-col {
+      flex: 1;
+      display: flex;
+      gap: 15px;
+    }
+
+    .dropdown-group {
+      flex: 1;
+    }
+
+    .dropdown-group label {
+      display: block;
+      margin-bottom: 4px;
+      font-weight: bold;
+    }
+
+    select {
+      width: 100%;
+      padding: 5px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+
+
+    /* Footer */
+    .footer {
+      display: flex;
+      justify-content: space-between;
+      width: 80%;
+      margin-top: 20px;
+      font-size: 1.2rem;
+    }
+
+    .footer .free-delivery {
+      color: rgb(243, 143, 204);
+      font-weight: bold;
+    }
+
+    .footer .total {
+      color: #292a2b;
+      font-weight: bold;
+    }
+
+    .section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80%;
+  margin-bottom: 10px;
+  gap: 12px;
+}
+
+.section-heading .line {
+  flex: 1;
+  height: 1px;
+  background-color: #ccc;
+}
+
+.section-heading .title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #f57cc6;
+  white-space: nowrap;
+}
+
+/* Add to Cart button */
+.add-to-cart {
+  background-color: #f07ec4;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+  width: 100%;
+}
+
+.add-to-cart:hover {
+  background-color: #c14a95;
+}
+
+.button-container {
+  width: 80%;
+}
+
+
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="section-heading">
+      <div class="line"></div>
+      <div class="title">Yay! It’s BOGO</div>
+      <div class="line"></div>
+    </div>
+    
+
+    <!-- Box 1 -->
+    <div class="box">
+      <div class="collapsed-summary">
+        <div class="collapsed-left">
+          <input type="radio" name="product" />
+          <div class="desc">1 unit <span class="offer">10% off</span> <br/>
+            <span class="standard-price">Standard Price</span> </div>
+        </div>
+        <div class="collapsed-right">$10.00 USD</div>
+      </div>
+      <div class="content">
+        <div class="left-side">
+          <div class="multi-option">
+            <div class="label-col">#1</div>
+            <div class="dropdown-col">
+              <div class="dropdown-group">
+                <label>Size</label>
+                <select>
+                  <option>128 GB</option>
+                  <option>256 GB</option>
+                  <option>512 GB</option>
+                </select>
+              </div>
+              <div class="dropdown-group">
+                <label>Color</label>
+                <select>
+                  <option>Blue</option>
+                  <option>Black</option>
+                  <option>Red</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="multi-option">
+            <div class="label-col">#2</div>
+            <div class="dropdown-col">
+              <div class="dropdown-group">
+                <label>Size</label>
+                <select>
+                  <option>128 GB</option>
+                  <option>256 GB</option>
+                </select>
+              </div>
+              <div class="dropdown-group">
+                <label>Color</label>
+                <select>
+                  <option>Silver</option>
+                  <option>Gold</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="right-side">
+        </div>
+      </div>
+    </div>
+
+    <!-- Box 2 -->
+    <div class="box">
+      <div class="collapsed-summary">
+        <div class="collapsed-left">
+          <input type="radio" name="product" />
+          <div class="desc">2 unit <span class="offer">20% off</span> - Standard Price</div>
+        </div>
+        <div class="collapsed-right">$18.00 USD</div>
+      </div>
+      <div class="content">
+        <div class="left-side">
+          <div class="multi-option">
+            <div class="label-col">#1</div>
+            <div class="dropdown-col">
+              <div class="dropdown-group">
+                <label>Size</label>
+                <select>
+                  <option>256 GB</option>
+                  <option>512 GB</option>
+                </select>
+              </div>
+              <div class="dropdown-group">
+                <label>Color</label>
+                <select>
+                  <option>Black</option>
+                  <option>Green</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="multi-option">
+            <div class="label-col">#2</div>
+            <div class="dropdown-col">
+              <div class="dropdown-group">
+                <label>Size</label>
+                <select>
+                  <option>128 GB</option>
+                  <option>256 GB</option>
+                </select>
+              </div>
+              <div class="dropdown-group">
+                <label>Color</label>
+                <select>
+                  <option>Cream</option>
+                  <option>Lavender</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="right-side">
+        </div>
+      </div>
+    </div>
+
+    <!-- Box 3 -->
+    <div class="box">
+      <div class="collapsed-summary">
+        <div class="collapsed-left">
+          <input type="radio" name="product" />
+          <div class="desc">3 unit <span class="offer">30% off</span> - Standard Price</div>
+        </div>
+        <div class="collapsed-right">$24.00 USD</div>
+      </div>
+      <div class="content">
+        <div class="left-side">
+          <div class="multi-option">
+            <div class="label-col">#1</div>
+            <div class="dropdown-col">
+              <div class="dropdown-group">
+                <label>Size</label>
+                <select>
+                  <option>Standard</option>
+                </select>
+              </div>
+              <div class="dropdown-group">
+                <label>Color</label>
+                <select>
+                  <option>Black</option>
+                  <option>Silver</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="multi-option">
+            <div class="label-col">#2</div>
+            <div class="dropdown-col">
+              <div class="dropdown-group">
+                <label>Size</label>
+                <select>
+                  <option>Large</option>
+                </select>
+              </div>
+              <div class="dropdown-group">
+                <label>Color</label>
+                <select>
+                  <option>White</option>
+                  <option>Gray</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="right-side">
+        </div>
+      </div>
+    </div>
+
+ 
+
+  <!-- Footer Section -->
+  <div class="footer">
+    <div class="free-delivery">Free Delivery</div>
+    <div class="total">Total: $18.00 USD</div>
+    
+  </div>
+
+  <div class="button-container">
+    <button class="add-to-cart">Add to Cart</button>
+  </div>
+  
+</div>
+  <script>
+    const boxes = document.querySelectorAll('.box');
+
+    boxes.forEach(currentBox => {
+      currentBox.addEventListener('click', () => {
+        boxes.forEach(box => {
+          if (box !== currentBox) {
+            box.classList.remove('active');
+          }
+        });
+        currentBox.classList.toggle('active');
+      });
+    });
+  </script>
+</body>
+</html>
